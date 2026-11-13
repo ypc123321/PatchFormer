@@ -1,0 +1,22 @@
+{
+  "model": "PatchFormer",
+  "battery": "CS2_35",
+  "dataset": "CALCE",
+  "sp": 300,
+  "seq_len": 64,
+  "steps": 1200,
+  "rated_capacity_ah": 1.1,
+  "eol_threshold_ah": 0.77,
+  "train_capacity_min": 0.1250435995775796,
+  "train_capacity_max": 1.0307332827746165,
+  "start_cycle": 301,
+  "end_cycle": 1500,
+  "initial_prediction_ah": 0.9783949808372382,
+  "max_prediction_ah": 0.98085809283703,
+  "max_prediction_cycle": 304,
+  "final_prediction_ah": 0.9720651008540949,
+  "min_prediction_ah": 0.9704644462462684,
+  "threshold_crossed": false,
+  "first_below_cycle": null,
+  "note": "Closed-loop recursion with capacity-only input; prediction is fed back into the window."
+}

@@ -1,0 +1,4 @@
+model,test_name,sp,run,epochs,train_seconds,MAE,RMSE,r2,RUL_real,RUL_pred,AE,RE,best_model_path
+PatchTST,CY25_1,200,1,39,35.6,0.010046,0.011626,0.994477,579,597,18,0.031142,results_TJU_RUL_prediction_sl_64/CY25_1/PatchTST/SP200/PatchTSTNetModel_2026-11-13 12-12-44/PatchTSTNetModel\checkpoints\epoch=38-step=390.ckpt
+PatchTST,CY25_1,300,1,39,35.54,0.009074,0.010662,0.993209,479,493,14,0.029289,results_TJU_RUL_prediction_sl_64/CY25_1/PatchTST/SP300/PatchTSTNetModel_2026-11-13 12-13-20/PatchTSTNetModel\checkpoints\epoch=38-step=390.ckpt
+PatchTST,CY25_1,400,1,39,35.33,0.0075,0.009383,0.992047,379,387,8,0.021164,results_TJU_RUL_prediction_sl_64/CY25_1/PatchTST/SP400/PatchTSTNetModel_2026-11-13 12-13-56/PatchTSTNetModel\checkpoints\epoch=38-step=390.ckpt

@@ -1,0 +1,4 @@
+model,test_name,sp,run,epochs,train_seconds,MAE,RMSE,r2,RUL_real,RUL_pred,AE,RE,best_model_path
+iTransformer,CS2_35,300,1,60,92.69,0.014789,0.023682,0.987165,341,350,9,0.026471,results_CALCE_RUL_prediction_sl_64/CS2_35/iTransformer/SP300/iTransformerModel_2026-11-12 21-37-12/iTransformerModel\checkpoints\epoch=59-step=960.ckpt
+iTransformer,CS2_35,400,1,60,87.62,0.017534,0.026384,0.983784,241,253,12,0.05,results_CALCE_RUL_prediction_sl_64/CS2_35/iTransformer/SP400/iTransformerModel_2026-11-12 21-38-45/iTransformerModel\checkpoints\epoch=59-step=960.ckpt
+iTransformer,CS2_35,500,1,60,87.23,0.021596,0.030044,0.976331,141,157,16,0.114286,results_CALCE_RUL_prediction_sl_64/CS2_35/iTransformer/SP500/iTransformerModel_2026-11-12 21-40-14/iTransformerModel\checkpoints\epoch=59-step=960.ckpt

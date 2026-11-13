@@ -1,0 +1,4 @@
+model,test_name,sp,run,epochs,train_seconds,MAE,RMSE,r2,RUL_real,RUL_pred,AE,RE,best_model_path
+PatchTST,CS2_37,300,1,60,132.78,0.012,0.016991,0.993201,417,453,36,0.086538,results_CALCE_RUL_prediction_sl_64/CS2_37/PatchTST/SP300/PatchTSTNetModel_2026-11-12 22-35-37/PatchTSTNetModel\checkpoints\epoch=59-step=960.ckpt
+PatchTST,CS2_37,400,1,60,99.84,0.01265,0.017606,0.992603,317,352,35,0.110759,results_CALCE_RUL_prediction_sl_64/CS2_37/PatchTST/SP400/PatchTSTNetModel_2026-11-12 22-37-50/PatchTSTNetModel\checkpoints\epoch=59-step=960.ckpt
+PatchTST,CS2_37,500,1,60,101.23,0.013831,0.018727,0.991237,217,252,35,0.162037,results_CALCE_RUL_prediction_sl_64/CS2_37/PatchTST/SP500/PatchTSTNetModel_2026-11-12 22-39-31/PatchTSTNetModel\checkpoints\epoch=59-step=960.ckpt

@@ -1,0 +1,4 @@
+model,test_name,sp,run,epochs,train_seconds,MAE,RMSE,r2,RUL_real,RUL_pred,AE,RE,best_model_path
+iTransformer,CY25_1,200,1,23,21.63,0.001734,0.002379,0.999769,579,581,2,0.00346,results_TJU_RUL_prediction_sl_64/CY25_1/iTransformer/SP200/iTransformerModel_2026-11-13 12-14-40/iTransformerModel\checkpoints\epoch=22-step=230.ckpt
+iTransformer,CY25_1,300,1,23,20.12,0.001874,0.002539,0.999615,479,481,2,0.004184,results_TJU_RUL_prediction_sl_64/CY25_1/iTransformer/SP300/iTransformerModel_2026-11-13 12-15-02/iTransformerModel\checkpoints\epoch=22-step=230.ckpt
+iTransformer,CY25_1,400,1,23,20.1,0.001998,0.002696,0.999343,379,380,1,0.002646,results_TJU_RUL_prediction_sl_64/CY25_1/iTransformer/SP400/iTransformerModel_2026-11-13 12-15-23/iTransformerModel\checkpoints\epoch=22-step=230.ckpt

@@ -1,0 +1,39 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# ---- IDE ----
+.idea/
+.vscode/
+*.swp
+
+# ---- 预处理后的数据（体积小，随仓库提交；原始 CALCE 文件按 README 说明获取）----
+/data/**
+!/data/CALCE data/
+!/data/CALCE data/CALCE_Data.npy
+!/data/TJU data/
+!/data/TJU data/Dataset_3_NCM_NCA_battery_1C.npy
+
+# ---- 训练中间产物 ----
+lightning_logs/
+results_*/
+logs/
+*.ckpt
+!weights/**/*.ckpt
+
+# ---- Optuna / 临时文件 ----
+*.db
+*.db-journal
+*.log
+optuna_study.db
+study_state.py
+leak_test.py
+measure_peak.py
+read_docx.py
+
+# ---- 系统 ----
+Thumbs.db
+.DS_Store

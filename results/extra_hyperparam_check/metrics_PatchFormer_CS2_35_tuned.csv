@@ -1,0 +1,4 @@
+model,test_name,sp,run,epochs,train_seconds,MAE,RMSE,r2,RUL_real,RUL_pred,AE,RE,best_model_path
+PatchFormer,CS2_35,300,1,22,78.45,0.008283,0.015137,0.994756,341,342,1,0.002941,results_CALCE_RUL_prediction_sl_64/CS2_35/PatchFormer/SP300/PatchFormerNetModel_2026-11-13 13-05-18/PatchFormerNetModel\checkpoints\epoch=21-step=352.ckpt
+PatchFormer,CS2_35,400,1,22,53.52,0.00919,0.016583,0.993594,241,242,1,0.004167,results_CALCE_RUL_prediction_sl_64/CS2_35/PatchFormer/SP400/PatchFormerNetModel_2026-11-13 13-06-37/PatchFormerNetModel\checkpoints\epoch=21-step=352.ckpt
+PatchFormer,CS2_35,500,1,22,51.54,0.010553,0.018532,0.990994,141,142,1,0.007143,results_CALCE_RUL_prediction_sl_64/CS2_35/PatchFormer/SP500/PatchFormerNetModel_2026-11-13 13-07-31/PatchFormerNetModel\checkpoints\epoch=21-step=352.ckpt

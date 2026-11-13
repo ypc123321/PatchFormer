@@ -1,0 +1,4 @@
+model,test_name,sp,run,epochs,train_seconds,MAE,RMSE,r2,RUL_real,RUL_pred,AE,RE,best_model_path
+ModernTCN,CY25_1,200,1,47,40.92,0.001502,0.002199,0.999802,579,580,1,0.00173,results_TJU_RUL_prediction_sl_64/CY25_1/ModernTCN/SP200/ModernTCNModel_2026-11-13 12-16-02/ModernTCNModel\checkpoints\epoch=46-step=470.ckpt
+ModernTCN,CY25_1,300,1,47,39.71,0.001506,0.002249,0.999698,479,481,2,0.004184,results_TJU_RUL_prediction_sl_64/CY25_1/ModernTCN/SP300/ModernTCNModel_2026-11-13 12-16-44/ModernTCNModel\checkpoints\epoch=46-step=470.ckpt
+ModernTCN,CY25_1,400,1,47,47.35,0.00154,0.00234,0.999505,379,381,2,0.005291,results_TJU_RUL_prediction_sl_64/CY25_1/ModernTCN/SP400/ModernTCNModel_2026-11-13 12-17-24/ModernTCNModel\checkpoints\epoch=46-step=470.ckpt

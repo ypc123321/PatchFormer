@@ -1,0 +1,4 @@
+model,test_name,sp,run,epochs,train_seconds,MAE,RMSE,r2,RUL_real,RUL_pred,AE,RE,best_model_path
+PatchFormer_no_DPAN,CS2_35,300,1,67,100.85,0.005768,0.013117,0.996062,341,340,1,0.002941,results_CALCE_RUL_prediction_sl_64/CS2_35/PatchFormer_no_DPAN/SP300/PatchFormer_no_DPANNetModel_2026-11-12 21-12-06/PatchFormer_no_DPANNetModel\checkpoints\epoch=66-step=1072.ckpt
+PatchFormer_no_DPAN,CS2_35,400,1,67,100.89,0.006336,0.014292,0.995242,241,240,1,0.004167,results_CALCE_RUL_prediction_sl_64/CS2_35/PatchFormer_no_DPAN/SP400/PatchFormer_no_DPANNetModel_2026-11-12 21-13-47/PatchFormer_no_DPANNetModel\checkpoints\epoch=66-step=1072.ckpt
+PatchFormer_no_DPAN,CS2_35,500,1,67,100.18,0.007017,0.015787,0.993465,141,140,1,0.007143,results_CALCE_RUL_prediction_sl_64/CS2_35/PatchFormer_no_DPAN/SP500/PatchFormer_no_DPANNetModel_2026-11-12 21-15-28/PatchFormer_no_DPANNetModel\checkpoints\epoch=66-step=1072.ckpt
