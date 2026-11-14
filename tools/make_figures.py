@@ -75,16 +75,16 @@ def fig1_capacity(batteries, rated=1.1, threshold=0.77):
 
 # ------------------------------------------------------------------ fig2
 def fig2_architecture():
-    fig, ax = plt.subplots(figsize=(7.2, 3.6))
+    fig, ax = plt.subplots(figsize=(7.6, 3.7))
     ax.set_axis_off()
-    ax.set_xlim(0, 10)
+    ax.set_xlim(0, 10.2)
     ax.set_ylim(0, 5)
 
-    def box(x, y, w, h, text, fc, ec='#333333'):
+    def box(x, y, w, h, text, fc, fs=8.0, ec='#333333'):
         p = FancyBboxPatch((x, y), w, h, boxstyle='round,pad=0.06,rounding_size=0.12',
                            fc=fc, ec=ec, lw=1.0)
         ax.add_patch(p)
-        ax.text(x + w / 2, y + h / 2, text, ha='center', va='center', fontsize=8.5)
+        ax.text(x + w / 2, y + h / 2, text, ha='center', va='center', fontsize=fs)
 
     def arrow(x1, y1, x2, y2):
         ax.add_patch(FancyArrowPatch((x1, y1), (x2, y2), arrowstyle='-|>', mutation_scale=10,
@@ -92,19 +92,19 @@ def fig2_architecture():
 
     box(0.2, 2.0, 1.5, 1.0, 'Capacity\nsequence\n(64 cycles)', '#e8f1fa')
     box(2.1, 2.0, 1.5, 1.0, 'Patch\nembedding\n(P=2, S=2)', '#e8f1fa')
-    box(4.0, 3.0, 2.0, 0.8, 'Intra-patch attention', '#dff2e6')
-    box(4.0, 1.2, 2.0, 0.8, 'Inter-patch attention', '#dff2e6')
-    box(6.4, 2.0, 1.5, 1.0, 'Feature\nattention\n(SE)', '#fdf1dd')
-    box(8.2, 2.0, 1.5, 1.0, 'Flatten +\nFC\n$\\rightarrow$ RUL', '#f5e6f4')
+    box(3.9, 3.0, 2.25, 0.85, 'Intra-patch\nattention', '#dff2e6', fs=7.8)
+    box(3.9, 1.15, 2.25, 0.85, 'Inter-patch\nattention', '#dff2e6', fs=7.8)
+    box(6.55, 2.0, 1.45, 1.0, 'Feature\nattention\n(SE)', '#fdf1dd', fs=7.8)
+    box(8.2, 2.0, 1.8, 1.0, 'Flatten + FC\n$\\rightarrow$ c(t+1)', '#f5e6f4', fs=7.8)
 
     arrow(1.7, 2.5, 2.1, 2.5)
-    arrow(3.6, 2.5, 4.0, 3.4)
-    arrow(3.6, 2.5, 4.0, 1.6)
-    arrow(6.0, 3.4, 6.4, 2.6)
-    arrow(6.0, 1.6, 6.4, 2.4)
-    arrow(7.9, 2.5, 8.2, 2.5)
-    ax.text(5.0, 4.35, 'Dual patch attention network (DPAN)', ha='center', fontsize=9)
-    ax.text(5.0, 0.6, 'PatchFormer', ha='center', fontsize=11, weight='bold')
+    arrow(3.6, 2.5, 3.9, 3.4)
+    arrow(3.6, 2.5, 3.9, 1.6)
+    arrow(6.15, 3.4, 6.55, 2.6)
+    arrow(6.15, 1.6, 6.55, 2.4)
+    arrow(8.0, 2.5, 8.2, 2.5)
+    ax.text(5.05, 4.35, 'Dual patch attention network (DPAN)', ha='center', fontsize=9)
+    ax.text(5.05, 0.6, 'PatchFormer', ha='center', fontsize=11, weight='bold')
     save(fig, 'fig2_architecture')
 
 
@@ -199,11 +199,15 @@ def fig4_ablation(metrics, test_name='CS2_35'):
                     ax.text(b.get_x() + b.get_width() / 2, v, '{:.4f}'.format(v),
                             ha='center', va='bottom', fontsize=6.5, rotation=90)
         ax.set_xticks(x)
-        ax.set_xticklabels([ABLATION_LABEL[m] for m in models], fontsize=8)
+        ax.set_xticklabels([ABLATION_LABEL[m] for m in models], fontsize=7.5,
+                           rotation=15, ha='right')
         ax.set_ylabel('{} (Ah)'.format(metric))
         ax.set_title(metric)
+        ax.margins(y=0.16)
         ax.grid(axis='y', alpha=0.3)
-    axes[1].legend(frameon=False, title='Starting point', fontsize=7.5)
+    axes[1].legend(frameon=False, title='Starting point', fontsize=7.5,
+                  loc='upper left', bbox_to_anchor=(1.01, 1.0))
+    fig.subplots_adjust(right=0.82, wspace=0.38)
     fig.suptitle('Ablation study on {} (grouped by starting point)'.format(test_name), y=1.02)
     save(fig, 'fig4_ablation')
 
@@ -214,24 +218,40 @@ def fig5_sp_effect(metrics, test_name='CS2_35'):
     if not rows:
         print('skip fig5: no metrics')
         return
-    models = sorted({r['model'] for r in rows})
+    # Only the main model and the three baselines: the ablation variants are
+    # already shown in fig4, and including them here made two lines share the
+    # same color.
+    plot_order = ['PatchFormer', 'PatchTST', 'iTransformer', 'ModernTCN']
+    models = [m for m in plot_order if any(r['model'] == m for r in rows)]
+    styles = {
+        'PatchFormer': ('#d62728', 'o', '-'),
+        'PatchTST': ('#1f77b4', 's', '--'),
+        'iTransformer': ('#2ca02c', '^', '-.'),
+        'ModernTCN': ('#9467bd', 'D', ':'),
+    }
     fig, axes = plt.subplots(1, 2, figsize=(9.6, 3.4))
-    for i, model in enumerate(models):
+    for model in models:
         sps = sorted({r['sp'] for r in rows if r['model'] == model})
         mae, ae = [], []
         for sp in sps:
             sel = [r for r in rows if r['model'] == model and r['sp'] == sp]
             mae.append(np.mean([r['MAE'] for r in sel]))
             ae.append(np.mean([r['AE'] for r in sel]))
-        axes[0].plot(sps, mae, marker='o', lw=1.2, color=COLORS[i % len(COLORS)], label=model)
-        axes[1].plot(sps, ae, marker='s', lw=1.2, color=COLORS[i % len(COLORS)], label=model)
+        color, marker, ls = styles[model]
+        axes[0].plot(sps, mae, marker=marker, ls=ls, lw=1.2, ms=5,
+                     color=color, label=model)
+        axes[1].plot(sps, ae, marker=marker, ls=ls, lw=1.2, ms=5,
+                     color=color, label=model)
     for ax, title, ylabel in ((axes[0], 'MAE', 'MAE (Ah)'), (axes[1], 'RUL absolute error', 'Cycles')):
         ax.set_xlabel('Starting prediction point (cycle)')
         ax.set_ylabel(ylabel)
         ax.set_title(title)
+        ax.set_xticks(sorted({r['sp'] for r in rows}))
         ax.grid(alpha=0.3)
-    axes[0].legend(frameon=False, fontsize=7.5)
-    axes[1].legend(frameon=False, fontsize=7.5)
+    handles, labels = axes[0].get_legend_handles_labels()
+    fig.legend(handles, labels, loc='upper center', ncol=len(models),
+               frameon=False, fontsize=7.5, bbox_to_anchor=(0.5, 1.02))
+    fig.subplots_adjust(top=0.82, wspace=0.28)
     save(fig, 'fig5_sp_effect')
 
 
@@ -249,10 +269,10 @@ def fig6_regeneration(batteries, test_name='CS2_35', rated=1.1, sp=300):
     cap = df['Capacity'].values
     cycles = np.arange(1, len(cap) + 1)
     win = 25
-    trend = np.convolve(cap, np.ones(win) / win, mode='same')
-    valid = slice(win, len(cap) - win)
-    resid = np.zeros_like(cap)
-    resid[valid] = cap[valid] - trend[valid]
+    # 'valid' avoids the zero-padding artifact that made the moving average
+    # start near 0.6 Ah at cycle 1; pad the unavailable head with NaN.
+    trend = np.full_like(cap, np.nan, dtype=float)
+    trend[win - 1:] = np.convolve(cap, np.ones(win) / win, mode='valid')
 
     pred = np.asarray(pred_data['SP{}'.format(sp)][0])
     pred_no = np.asarray(no_data['SP{}'.format(sp)][0])
@@ -267,13 +287,15 @@ def fig6_regeneration(batteries, test_name='CS2_35', rated=1.1, sp=300):
     fig, axes = plt.subplots(2, 1, figsize=(6.6, 5.2),
                              gridspec_kw={'height_ratios': [1.35, 1]})
     ax = axes[0]
-    ax.plot(cycles, cap, lw=0.9, color='#1f77b4', label='Measurement')
-    ax.plot(cycles, trend, lw=1.2, color='#ff7f0e', label='25-cycle moving average')
+    ax.plot(cycles, cap, lw=0.8, color='#1f77b4', alpha=0.35, label='Measurement')
+    ax.plot(cycles, trend, lw=1.5, color='#ff7f0e', label='25-cycle moving average')
     ax.axhline(0.77, ls='--', lw=0.8, color='k', label='EOL threshold (0.77 Ah)')
     ax.axvline(sp, ls=':', lw=0.8, color='gray')
+    ax.axvspan(330, 375, color='#bbbbbb', alpha=0.25, label='Zoom window')
     ax.set_ylabel('Capacity (Ah)')
-    ax.set_title('Capacity regeneration of {}'.format(test_name))
+    ax.set_title('Capacity regeneration of {}'.format(test_name), pad=6)
     ax.set_xlim(0, len(cap))
+    ax.set_xticks(np.arange(0, len(cap) + 1, 100))
     ax.legend(frameon=False, fontsize=7.5, loc='upper right')
     ax.grid(alpha=0.3)
 
@@ -288,9 +310,12 @@ def fig6_regeneration(batteries, test_name='CS2_35', rated=1.1, sp=300):
             label='w/o inter-PA (reg. MAE {:.4f})'.format(mae_no))
     ax.set_xlabel('Cycle')
     ax.set_ylabel('Capacity (Ah)')
-    ax.set_title('Zoom: cycles {}-{}'.format(lo, hi))
-    ax.legend(frameon=False, fontsize=7.5, loc='lower right')
+    ax.set_title('Zoom: cycles {}-{}'.format(lo, hi), pad=6)
+    ax.set_xlim(lo - 2, hi + 2)
+    ax.legend(frameon=False, fontsize=7.0, loc='center left',
+              bbox_to_anchor=(1.01, 0.5))
     ax.grid(alpha=0.3)
+    fig.subplots_adjust(hspace=0.32, right=0.78)
     save(fig, 'fig6_regeneration_{}'.format(test_name))
 
 

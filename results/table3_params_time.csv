@@ -1,0 +1,8 @@
+model,params,train_time_s,epochs,note
+PatchFormer,97895,462,88,"CS2_35, SP=300; wall-clock includes early stopping"
+w/o DPAN,68129,101,67,"CS2_35, SP=300; no intra-patch attention"
+w/o Inter PA,79463,176,80,"CS2_35, SP=300; no inter-patch attention"
+w/o Intra PA,69153,119,78,"CS2_35, SP=300; no intra-patch attention"
+PatchTST,5043,92,60,"CS2_35, SP=300; baseline"
+iTransformer,5537,93,60,"CS2_35, SP=300; baseline"
+ModernTCN,44097,87,60,"CS2_35, SP=300; baseline"

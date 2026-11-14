@@ -1,5 +1,7 @@
 # PatchFormer 锂电池剩余寿命（RUL）预测复现
 
+> GitHub 仓库：<https://github.com/ypc123321/PatchFormer>
+
 本仓库是基于 **PatchFormer**（Liu et al., *Journal of Power Sources* 631 (2025) 236187）官方开源代码的**课程大作业复现项目**：在 CALCE 与 TJU 公开数据上完成数据预处理、训练、容量预测与 RUL 换算的端到端复现，并补充了消融实验、主流基线对比与图表生成脚本。
 
 > 原始官方仓库见 `README_official.md`。本仓库保留其网络结构与数据处理逻辑，新增统一实验入口、批量实验脚本、指标汇总、绘图、权重复核与闭环递归探针。
@@ -18,7 +20,7 @@ tools/
   make_figures.py             生成论文全部图表（figures/）
   export_weights.py           把最优权重复制到 weights/
   verify_reproduction.py      用 weights/ 复算 15×3 个指标并与 CSV 对账
-  recursive_probe.py          闭环递归外推压力测试（论文第 10 节 / 图 7）
+  recursive_probe.py          闭环递归外推压力测试（论文4.10 节 / 图 7）
   smoke_models.py             模型的一步冒烟测试
 data/CALCE data/              CALCE 预处理后的容量序列（CALCE_Data.npy）
 data/TJU data/                TJU 预处理后的容量序列（Dataset_3_NCM_NCA_battery_1C.npy）
@@ -71,7 +73,7 @@ python tools/export_weights.py
 # 4) 复现核验（15 个权重 × 3 个 SP，结果写入 results/verification_report.csv）
 python tools/verify_reproduction.py
 
-# 5) 闭环递归探针（论文第 10 节，输出 results/recursive_probe.json 与 figures/fig7_recursive.png）
+# 5) 闭环递归探针（论文4.10 节，输出 results/recursive_probe.json 与 figures/fig7_recursive.png）
 python tools/recursive_probe.py --battery CS2_35 --sp 300
 ```
 
@@ -93,12 +95,12 @@ python tools/recursive_probe.py --battery CS2_35 --sp 300
 | TJU (CY25_1) | PatchFormer | 300 | 0.0017 | 0.0025 | 0.9996 | 3 |
 | TJU (CY25_1) | PatchFormer | 400 | 0.0025 | 0.0033 | 0.9990 | 4 |
 
-完整对比见论文表 3~表 8 与 `results/summary_metrics_agg.csv`（含 PatchTST / iTransformer / ModernTCN 及三个消融变体）。
+完整对比见论文表 4~表 9 与 `results/summary_metrics_agg.csv`（含 PatchTST / iTransformer / ModernTCN 及三个消融变体）。
 
 ## 关键口径说明
 
 - **RUL 换算不是闭环迭代。** 测试阶段为 SP 之后的每个真实历史窗口构造输入，模型只做单步容量预测；这些单步预测按循环顺序串成序列，首次低于 0.77 Ah（TJU 为 1.75 Ah）的位置换算为 PRUL。代码见 `RUL_Prediction_benchmark.py` 的 `best_model.predict(test_dataloader)` 与 `rul_value_error(...)`。
-- **表 7 的低 AE 只反映单步容量精度**，不能解释为长期外推能力。论文第 10 节与 `tools/recursive_probe.py` 给出闭环递归压力测试：把预测值回填窗口后，CS2_35/SP300 的容量在 0.97 Ah 附近收敛，1200 步内不穿越 0.77 Ah，因此无法给出有限 PRUL。
+- **表 8 的低 AE 只反映单步容量精度**，不能解释为长期外推能力。论文4.10 节与 `tools/recursive_probe.py` 给出闭环递归压力测试：把预测值回填窗口后，CS2_35/SP300 的容量在窗口反归一化下约 0.96 Ah、1200 步内不穿越 0.77 Ah；但 persistence 对照同样不穿越，而全局反归一化轨迹失真，因此当前协议不能单独判定模型本身无外推能力。
 - **一个权重覆盖三个 SP。** 训练集排除测试电池，SP 只改变测试集的截取位置；因此 `weights/<model>/<battery>/best.ckpt` 可用于该电池的 SP300/400/500（TJU 为 200/300/400）。`tools/verify_reproduction.py` 已对 45 个“模型×电池×SP”组合逐一复算，全部与 CSV 一致（最大绝对差 1e-6）。
 - **训练预算并不完全对齐。** 主模型 100 轮、消融 80 轮、基线 60 轮；这是复现时的实际设置，论文表 2 与第 5 节已如实披露，因此跨模型比较应理解为“各自预算下的结果”，不是严格等算力对比。
 

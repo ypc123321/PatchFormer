@@ -37,18 +37,15 @@ git commit -m "PatchFormer RUL reproduction: code, weights and results"
 > 保留 `data/CALCE data/CALCE_Data.npy`（0.19 MB）、`data/TJU data/Dataset_3_NCM_NCA_battery_1C.npy`
 > （0.4 MB）、`results/` 下的预测结果与指标 CSV、`weights/` 下的最优权重。论文在 `01_论文/`，不随代码仓库提交。
 
-## 4. 在 GitHub 上创建仓库
+## 4. GitHub 仓库
 
-1. 登录 <https://github.com>，右上角 **+ → New repository**。
-2. 名称建议：`PatchFormer-RUL`；可见性：**Public**（作业需要老师能访问）。
-3. **不要**勾选 “Add a README file”（本地已有 README），直接 **Create repository**。
-4. 复制页面上的仓库地址，例如 `https://github.com/用户名/PatchFormer-RUL.git`。
+仓库已创建：<https://github.com/ypc123321/PatchFormer>（Public）。若需要重建，登录 <https://github.com>，右上角 **+ → New repository**，名称可用 `PatchFormer`，可见性选 **Public**，不要勾选 “Add a README file”，然后 **Create repository**。
 
 ## 5. 推送
 
 ```powershell
 git branch -M main
-git remote add origin https://github.com/用户名/PatchFormer-RUL.git
+git remote add origin https://github.com/ypc123321/PatchFormer.git
 git push -u origin main
 ```
 
