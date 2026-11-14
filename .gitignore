@@ -37,3 +37,5 @@ read_docx.py
 # ---- 系统 ----
 Thumbs.db
 .DS_Store
+# ---- 内部笔记（不随公开仓库） ----
+docs/
