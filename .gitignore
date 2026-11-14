@@ -38,4 +38,4 @@ read_docx.py
 Thumbs.db
 .DS_Store
 # ---- 内部笔记（不随公开仓库） ----
-docs/提交前操作清单.md
+docs/
